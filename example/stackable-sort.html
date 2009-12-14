@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>jQuery UI Sortable - Stackable Connect lists</title>
+        <link type="text/css" href="css/ui.core.css" rel="stylesheet" />
+        <link type="text/css" href="css/ui.theme.css" rel="stylesheet" />
+        <script type="text/javascript" src="js/jquery-1.3.2.js"></script>
+        <script type="text/javascript" src="js/ui.core.js"></script>
+        <script type="text/javascript" src="js/ui.sortable.js"></script>
+        <link type="text/css" href="css/demos.css" rel="stylesheet" />
+        <style type="text/css">
+            body{width:700px;}
+            h1{margin:0}
+            .ui-sortable-stackable-match{border:3px dotted #D3D3D3}
+            .connectedSortable1, .connectedSortable2 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; }
+            .connectedSortable1 li, .connectedSortable2 li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 160px; }
+            div.demo{float:left}
+            .connectedSortable1 li span, .connectedSortable2 li span{font-weight:bold}
+            .ui-sortable-placeholder2{background-color:#f4f4f4; height:25px;}
+        </style>
+    </head>
+    <body>
+                    <h1>Examples</h1>
+            <br style="clear:both" />
+        <div class="demo">
+            <script type="text/javascript">
+                $(function() {
+                    $("#sortable1, #sortable2, #sortable3").sortable({
+                        connectWith: '.connectedSortable1',
+                        helper: 'clone',
+                        stackableCountSelector: "span.count",
+                        placeholder: "ui-sortable-placeholder2",
+                        stackableTypeSelector: "input.item-type"
+                    }).disableSelection();
+                });
+            </script>
+            <h2>Simple</h2>
+            <ul id="sortable1" class="connectedSortable1">
+                <li id="item_11" class="ui-state-default">
+                    Item 1 count:<span class="count">3</span>
+                    <input type="hidden" class="item-type" value="item1"/>
+                </li>
+                <li id="item_12" class="ui-state-default">
+                    Item 2 count:<span class="count">2</span>
+                    <input type="hidden" class="item-type" value="item2"/>
+                </li>
+                <li id="item_13" class="ui-state-default">
+                    Item 3 count:<span class="count">1</span>
+                    <input type="hidden" class="item-type" value="item3"/>
+                </li>
+                <li id="item_14" class="ui-state-default">
+                    Item 4 count:<span class="count">2</span>
+                    <input type="hidden" class="item-type" value="item4"/>
+                </li>
+            </ul>
+
+            <ul id="sortable2" class="connectedSortable1">
+                <li id="item_21" class="ui-state-default">
+                    Item 1 count:<span class="count">1</span>
+                    <input type="hidden" class="item-type" value="item1"/>
+                </li>
+                <li id="item_22" class="ui-state-default">
+                    Item 2 count:<span class="count">1</span>
+                    <input type="hidden" class="item-type" value="item2"/>
+                </li>
+                <li id="item_23" class="ui-state-default">
+                    Item 3 count:<span class="count">2</span>
+                    <input type="hidden" class="item-type" value="item3"/>
+                </li>
+            </ul>
+
+            <ul id="sortable3" class="connectedSortable1">
+                <li id="item_31" class="ui-state-default">
+                    Item 1 count:<span class="count">3</span>
+                    <input type="hidden" class="item-type" value="item1"/>
+                </li>
+                <li id="item_32" class="ui-state-default">
+                    Item 2 count:<span class="count">2</span>
+                    <input type="hidden" class="item-type" value="item2"/>
+                </li>
+                <li id="item_33" class="ui-state-default">
+                    Item 3 count:<span class="count">2</span>
+                    <input type="hidden" class="item-type" value="item3"/>
+                </li>
+            </ul>
+            <br style="clear:both" />
+        </div><!-- End demo -->
+
+        <div class="demo">
+            <script type="text/javascript">
+                $(function() {
+                    $("#advanced1, #advanced2").sortable({
+                        connectWith: '.connectedSortable2',
+                        helper: 'clone',
+                        revert:true,
+                        stackableCountSelector: "span.count",
+                        stackableTypeSelector: "input.item-type",
+                        stackableDragCount: 1,
+                        start: function(event, ui) {
+                            var price = parseFloat(ui.helper.find(".price").text())                            
+                            if(ui.item.length>0)
+                                ui.item.find(".sum").text(price*ui.stackableItemCount)                            
+                            ui.helper.find(".sum").text(price*ui.stackableHelperCount)
+                        },
+                        stop: function(event, ui){
+                            if(ui.stackableTargetItem){
+                                var price = parseFloat(ui.stackableTargetItem.find(".price").text())
+                                ui.stackableTargetItem.find(".sum").text(ui.stackableTargetCount*price)
+                            }
+                        }
+                    }).disableSelection();
+                });
+                
+            </script>
+            <h2>Advanced</h2>
+            <ul id="advanced1" class="connectedSortable2">
+                <li id="adv_11" class="ui-state-default">
+                    Item 1
+                    count:<span class="count">1</span>x<span class="price">2.5</span>
+                    sum:<span class="sum">2.5</span>
+                    <input type="hidden" class="item-type" value="item1"/>
+                </li>
+                <li id="adv_12" class="ui-state-default">
+                    Item 2
+                    count:<span class="count">3</span>x<span class="price">5</span>
+                    sum:<span class="sum">15</span>
+                    <input type="hidden" class="item-type" value="item2"/>
+                </li>
+                <li id="adv_13" class="ui-state-default">
+                    Item 3
+                    count:<span class="count">4</span>x<span class="price">1.5</span>
+                    sum:<span class="sum">6</span>
+                    <input type="hidden" class="item-type" value="item3"/>
+                </li>
+            </ul>
+
+            <ul id="advanced2" class="connectedSortable2">
+                <li id="adv_21" class="ui-state-default">
+                    Item 1
+                    count:<span class="count">2</span>x<span class="price">2.5</span>
+                    sum:<span class="sum">5</span>
+                    <input type="hidden" class="item-type" value="item1"/>
+                </li>
+                <li id="adv_22" class="ui-state-default">
+                    Item 2
+                    count:<span class="count">1</span>x<span class="price">5</span>
+                    sum:<span class="sum">5</span>
+                    <input type="hidden" class="item-type" value="item2"/>
+                </li>
+            </ul>
+        </div><!-- End demo -->
+
+        <div class="demo-description">
+            <p>
+            <h2>Summary</h2>
+            Stackable is newly added option to sortable <a href="http://jqueryui.com/demos/sortable/" alt="">plugin</a> created by <a href="http://jqueryui.com/" alt="">"jQuery UI"</a> team.
+            this option alows user to convert multiple connected lists to act as stackable.
+        </p>
+        <p>
+        <h2>Features</h2>
+        Stackable option determines if the target list has the same item type as draggable item if it does it summs
+        them else draggable item will be appended. For user to have maximum control over stackable lists we added 8 new callback
+        objects.
+    </p>
+    <h2>Setup</h2>
+    <span style="color: rgb(0, 0, 0);">
+        This plugin uses <a href="http://jquery.com/">jQuery</a> and since it is jQuery UI plugin it also needs "UI Core" found <a href="http://jqueryui.com/download">here</a>
+        <br /><br />
+        <code>
+            $(function() {<br/>    $("#sortable1, #sortable2, #sortable3").sortable({<br/>        connectWith: '.connectedSortable1',<br/>        helper: 'clone',<br/>        stackableCountSelector: "span.count",<br/>        stackableTypeSelector: "input.item-type",<br/>        stackableDragCount: 1<br/>    }).disableSelection();<br/>});</span>
+</code>
+<br />
+There are few requirements for stackable option to work:
+<ul>
+    <li>Main thing is to have at least two sortable lists connected to ach other. <code>connectWith:'.connectedSortable1'</code></li>
+    <li>Helper must be set to clone <code>helper:'clone'</code></li>
+    <li>Count holder must be specified with <code>stackableCountSelector</code> option it must cointain the jQuery selector value to the specific count html. eg. <code>&lt;span class=&quot;count&quot;&gt;5&lt;/span&gt;</code></li>
+    <li>Item type must be set so that it could be recognized and stacked poperly - <code>stackableTypeSelector: "input.item-type"</code> the type value must be set in hidden input element eg. <code>&lt;input class=&quot;item-type&quot; type=&quot;hidden&quot; value=&quot;type3&quot;/&gt;</code></li>
+    <li>Optionaly draggable item count can be specified with <code>stackableDragCount</code>, default value is 1</li>
+</ul>
+</p>
+<p>
+<h2>Callback ui objects</h2>
+Available ui callback objects for stackable lists:
+<ul>
+    <li><strong>ui.stackableTotalCount</strong> - Total current item count</li>
+    <li><strong>ui.stackableType</strong> - Current item type (type determined by hidden input field)</li>
+    <li><strong>ui.stackableItemCount</strong> - Current item count after drag start (how much left when dragging starts)</li>
+    <li><strong>ui.stackableHelperCount</strong> - Helper count (how much are beeng dragged)</li>
+    <li><strong>ui.stackableMatchingItem</strong> - Matching item (Item which matches helpers type while being dragged)</li>
+    <li><strong>ui.stackableTargetItem</strong> - Target item (item on which helper is being dropped)</li>
+    <li><strong>ui.stackableTargetCount</strong> - Target item count (item count after helper is dropped and both helper and target count summed)</li>
+    <li><strong>ui.stackableDroppedSameList</strong> - Boolean - returns true if helper has been dropped on the same list from which it was dragged else false</li>
+</ul>
+</p>
+<p>
+<h2>Theming/CSS</h2>
+Beside default <code>ui-sortable-placeholder</code> css class there is now a <code>ui-sortable-stackable-match</code> class.
+This class is added on item which match the draggable item type and is active only while dragging.
+</p>
+</div><!-- End demo-description -->
+</body>
+</html>
