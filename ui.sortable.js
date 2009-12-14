@@ -1042,11 +1042,13 @@
 
                 //$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately, it unbinds ALL events from the original node!
                 this.placeholder[0].parentNode.removeChild(this.placeholder[0]);
-
+                
                 //Remove helper if it is cloned except if stackable option is enabled and item is not found in target list
-                if(this.helper[0] != this.currentItem[0] && (!this.stackable || (this.stackable && this.targetItemStack)))
-                    this.helper.remove(); this.helper = null;
-
+                if(this.helper[0] != this.currentItem[0] && (!this.stackable || (this.stackable && this.targetItemStack))){
+                    this.helper.remove();
+                    this.helper = null;
+                }
+                
                 if(this.stackable && this.stackableItemCount<=0 && !this.droppedOnSelf)
                     this.currentItem.remove(); this.currentItem = null;
                 
