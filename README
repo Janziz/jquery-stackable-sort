@@ -1,0 +1,39 @@
+Summary:
+Stackable is newly added option to sortable plugin created by "jQuery UI" team. this option alows user to convert multiple connected lists to act as stackable.
+
+Features:
+Stackable option determines if the target list has the same item type as draggable item if it does it summs them else draggable item will be appended. For user to have maximum control over stackable lists we added 8 new callback objects.
+Setup:
+This plugin uses jQuery and since it is jQuery UI plugin it also needs "UI Core" found here
+
+$(function() {
+    $("#sortable1, #sortable2, #sortable3").sortable({
+        connectWith: '.connectedSortable1',
+        helper: 'clone',
+        stackableCountSelector: "span.count",
+        stackableTypeSelector: "input.item-type",
+        stackableDragCount: 1
+    }).disableSelection();
+});
+There are few requirements for stackable option to work:
+
+    * Main thing is to have at least two sortable lists connected to ach other. connectWith:'.connectedSortable1'
+    * Helper must be set to clone helper:'clone'
+    * Count holder must be specified with stackableCountSelector option it must cointain the jQuery selector value to the specific count html. eg. <span class="count">5</span>
+    * Item type must be set so that it could be recognized and stacked poperly - stackableTypeSelector: "input.item-type" the type value must be set in hidden input element eg. <input class="item-type" type="hidden" value="type3"/>
+    * Optionaly draggable item count can be specified with stackableDragCount, default value is 1
+
+Callback ui objects:
+Available ui callback objects for stackable lists:
+
+    * ui.stackableTotalCount - Total current item count
+    * ui.stackableType - Current item type (type determined by hidden input field)
+    * ui.stackableItemCount - Current item count after drag start (how much left when dragging starts)
+    * ui.stackableHelperCount - Helper count (how much are beeng dragged)
+    * ui.stackableMatchingItem - Matching item (Item which matches helpers type while being dragged)
+    * ui.stackableTargetItem - Target item (item on which helper is being dropped)
+    * ui.stackableTargetCount - Target item count (item count after helper is dropped and both helper and target count summed)
+    * ui.stackableDroppedSameList - Boolean - returns true if helper has been dropped on the same list from which it was dragged else false
+
+Theming/CSS:
+Beside default ui-sortable-placeholder css class there is now a ui-sortable-stackable-match class. This class is added on item which match the draggable item type and is active only while dragging. 
